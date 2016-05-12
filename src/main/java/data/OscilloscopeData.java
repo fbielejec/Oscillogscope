@@ -11,7 +11,7 @@ public class OscilloscopeData {
 		this.data = new ArrayList<Line>();
 	}
 
-	public List<Line> getData() {
+	public List<Line> getLines() {
 		return data;
 	}
 

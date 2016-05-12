@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
+import data.OscilloscopeData;
 import exceptions.OscilloscopeException;
 import parsers.LogParser;
 
@@ -37,18 +38,17 @@ public class TestLogParser {
 
 			LogParser parser = new LogParser(this.filepath);
 
-			parser.parseLog();
+			OscilloscopeData data = parser.parseLog();
 
 			
 			
 			
-			
+			assertEquals(2, 1 + 1);			
 			
 		} catch (OscilloscopeException e) {
 			System.out.println(e.getMessage());
 		}
 
-		assertEquals(2, 1 + 1);
 	}
 
 }

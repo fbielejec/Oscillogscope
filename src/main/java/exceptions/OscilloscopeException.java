@@ -1,10 +1,13 @@
 package exceptions;
 
+/**
+ * @author fbielejec
+ */
 public class OscilloscopeException extends Exception {
 
 	private static final long serialVersionUID = 2624453296766775277L;
 	private final String message;
-	
+
 	public OscilloscopeException(String message) {
 		this.message = message;
 	}
@@ -13,5 +16,5 @@ public class OscilloscopeException extends Exception {
 	public String getMessage() {
 		return message;
 	}
-	
+
 }

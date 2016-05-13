@@ -2,6 +2,9 @@ package data;
 
 import java.util.List;
 
+/**
+ * @author fbielejec
+ */
 public class Line {
 
 	private final String name;

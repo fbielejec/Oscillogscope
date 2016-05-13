@@ -35,15 +35,19 @@ public class TestLogParser {
 	public void testLogParser() {
 		try {
 
-			LogParser parser = new LogParser(this.filepath);
+			// value which I Just Know (TM)
+			final int NUMBER_OF_COLUMNS = 212;
+			final int NUMBER_OF_VALUES = 998;
 
+			LogParser parser = new LogParser(this.filepath);
 			OscilloscopeData data = parser.parseLog();
 
-			
-			
-			
-			assertEquals(2, 1 + 1);			
-			
+			int nlines = data.getLines().size();
+			assertEquals(NUMBER_OF_COLUMNS, nlines);
+
+			int nCoords = data.getLines().get(0).getValues().size();
+			assertEquals(NUMBER_OF_VALUES, nCoords);
+
 		} catch (OscilloscopeException e) {
 			e.printStackTrace();
 		}

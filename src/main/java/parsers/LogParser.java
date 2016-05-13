@@ -1,16 +1,8 @@
 package parsers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -61,7 +53,7 @@ public class LogParser {
 					}) //
 					.collect(Collectors.toList());
 
-			Utils.headCollection(lines, 3);
+//			Utils.headCollection(lines, 3);
 
 		} catch (Exception e) {
 			String message = "Error occured when reading log file " + filename + "\n" + e.getMessage();

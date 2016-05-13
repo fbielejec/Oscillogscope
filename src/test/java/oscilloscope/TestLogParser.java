@@ -29,7 +29,6 @@ public class TestLogParser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Test
@@ -46,9 +45,8 @@ public class TestLogParser {
 			assertEquals(2, 1 + 1);			
 			
 		} catch (OscilloscopeException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
-
 	}
 
 }

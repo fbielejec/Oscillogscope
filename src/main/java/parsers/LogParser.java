@@ -15,7 +15,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import data.Coordinate;
+import data.Line;
 import data.OscilloscopeData;
 import exceptions.OscilloscopeException;
 import utils.Utils;
@@ -26,6 +29,7 @@ import utils.Utils;
 public class LogParser {
 
 	public static final String HASH_COMMENT = "#";
+	public static final String WHITESPACE = "\\s+";
 	private final String filename;
 
 	public LogParser(String filename) {
@@ -33,6 +37,8 @@ public class LogParser {
 	}
 
 	public OscilloscopeData parseLog() throws OscilloscopeException {
+
+		final List<Line> lines;
 
 		try {
 
@@ -42,38 +48,62 @@ public class LogParser {
 					.collect(Collectors.toList());
 
 			// get states
-            List<String> states = parseColumn(linesList, 0).stream().skip(1).collect(Collectors.toList());
-			
-//			Utils.headCollection(states,10);
-			
-			
-            
-            
-			
-			
-			
-			
+			Integer colIndex = 0;
+			List<String> states = parseColumn(linesList, colIndex).stream().skip(1).collect(Collectors.toList());
+
+			Integer nColumns = getNColumns(linesList);
+
+			// get lines
+			lines = IntStream.range(colIndex++, nColumns - 1) //
+					.parallel() //
+					.mapToObj(i -> {
+						return createLine(linesList, states, i);
+					}) //
+					.collect(Collectors.toList());
+
+			Utils.headCollection(lines, 3);
 
 		} catch (Exception e) {
 			String message = "Error occured when reading log file " + filename + "\n" + e.getMessage();
 			throw new OscilloscopeException(message);
 		}
 
-		return null;
+		return new OscilloscopeData(lines);
 	}
 
-	private List<String> parseColumn(Collection<String> linesList, int colIndex) {
+	private Integer getNColumns(List<String> linesList) {
+		return linesList.get(0).split(WHITESPACE).length;
+	}
 
-		Pattern pattern = Pattern.compile("\\s+");
+	private List<String> parseColumn(Collection<String> linesList, Integer colIndex) {
 
-		List<String> coll = linesList.stream() //
+		Pattern pattern = Pattern.compile(WHITESPACE);
+
+		List<String> rows = linesList.stream() //
 				.map(line -> {
 					return pattern.split(line, -1)[colIndex];
 				}) //
 				.filter(line -> !line.equals(HASH_COMMENT)) //
 				.collect(Collectors.toList());
 
-		return coll;
+		return rows;
+	}
+
+	private Line createLine(Collection<String> linesList, List<String> states, Integer colIndex) {
+
+		List<String> column = parseColumn(linesList, colIndex);
+		String name = column.get(0);
+
+		List<Coordinate> values = IntStream.range(0, column.size() - 1) //
+				.skip(1) //
+				.mapToObj(i -> {
+					Double x = Double.valueOf(states.get(i));
+					Double y = Double.valueOf(column.get(i));
+					return new Coordinate(x, y);
+				}) //
+				.collect(Collectors.toList());
+
+		return new Line(name, values);
 	}
 
 }

@@ -1,14 +1,13 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OscilloscopeData {
 
 	private final List<Line> data;
 
-	public OscilloscopeData() {
-		this.data = new ArrayList<Line>();
+	public OscilloscopeData(List<Line> data) {
+		this.data = data;
 	}
 
 	public List<Line> getLines() {

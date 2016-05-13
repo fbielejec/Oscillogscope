@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,37 +32,29 @@ public class LogParser {
 		this.filename = filename;
 	}
 
-	// TODO: with lambdas
 	public OscilloscopeData parseLog() throws OscilloscopeException {
 
 		try {
 
-
-			Pattern pattern = Pattern.compile("\\s+");
-
-			List<String> x = Files.lines(Paths.get(filename), Charset.defaultCharset())
-					.map(line -> pattern.split(line, 2)[0])
-					.filter(line -> !line.equals(HASH_COMMENT))
+			// skip commented lines
+			List<String> linesList = Files.lines(Paths.get(filename), Charset.defaultCharset()) //
+					.filter(line -> !line.startsWith(HASH_COMMENT)) //
 					.collect(Collectors.toList());
 
+			// get states
+            List<String> states = parseColumn(linesList, 0).stream().skip(1).collect(Collectors.toList());
+			
+//			Utils.headCollection(states,10);
 			
 			
-			System.out.println(x);
+            
+            
+			
+			
+			
 			
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		} catch ( Exception e) {
+		} catch (Exception e) {
 			String message = "Error occured when reading log file " + filename + "\n" + e.getMessage();
 			throw new OscilloscopeException(message);
 		}
@@ -69,25 +62,18 @@ public class LogParser {
 		return null;
 	}
 
-	public static String[] readLines(String filename, String comment) throws IOException {
+	private List<String> parseColumn(Collection<String> linesList, int colIndex) {
 
-		FileReader fileReader = new FileReader(filename);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		List<String> lines = new ArrayList<String>();
+		Pattern pattern = Pattern.compile("\\s+");
 
-		String line = null;
-		while ((line = bufferedReader.readLine()) != null) {
+		List<String> coll = linesList.stream() //
+				.map(line -> {
+					return pattern.split(line, -1)[colIndex];
+				}) //
+				.filter(line -> !line.equals(HASH_COMMENT)) //
+				.collect(Collectors.toList());
 
-			// skip commented lines
-			if (!line.contains(comment)) {
-				lines.add(line);
-			} // END: commented line check
-
-		} // END: lines loop
-
-		bufferedReader.close();
-
-		return lines.toArray(new String[lines.size()]);
-	}// END: readLines
+		return coll;
+	}
 
 }

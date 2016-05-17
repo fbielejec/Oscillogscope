@@ -53,8 +53,6 @@ public class LogParser {
 					}) //
 					.collect(Collectors.toList());
 
-//			Utils.headCollection(lines, 3);
-
 		} catch (Exception e) {
 			String message = "Error occured when reading log file " + filename + "\n" + e.getMessage();
 			throw new OscilloscopeException(message);

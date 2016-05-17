@@ -1,0 +1,17 @@
+#!/bin/bash
+
+############
+#---POST---#
+############
+
+curl -X POST -H 'Content-Type: application/json' -d '{"resource":"FUBAR"}' http://localhost:8080/test
+echo -e '\n'
+
+###########
+#---GET---#
+###########
+
+curl -X GET http://localhost:8080/test
+echo -e '\n'
+
+exit 0

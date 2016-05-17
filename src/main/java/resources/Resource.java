@@ -1,8 +1,5 @@
 package resources;
 
-// TODO: test:
-// http://www.mkyong.com/webservices/jax-rs/json-example-with-jersey-jackson/
-
 public class Resource {
 
 	private String resource = "";
@@ -23,7 +20,7 @@ public class Resource {
 		return resource;
 	}
 
-	public synchronized void setResource(String resource) {
+	public void setResource(String resource) {
 		this.resource = resource;
 	}
 

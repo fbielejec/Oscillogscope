@@ -11,9 +11,6 @@ import javax.ws.rs.core.Response.Status;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-// TODO: test:
-// http://www.mkyong.com/webservices/jax-rs/json-example-with-jersey-jackson/
-
 @Path("/test")
 public class JSONResource {
 

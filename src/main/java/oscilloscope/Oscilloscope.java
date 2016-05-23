@@ -1,17 +1,15 @@
 package oscilloscope;
 
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.DefaultHandler;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
+import static spark.Spark.get;
+import static spark.Spark.setPort;
+import static spark.Spark.setIpAddress;
+import static spark.Spark.staticFileLocation;
 
-import resources.JSONResource;
+import resources.Test;
+import resources.TestResource;
+import spark.Request;
+import spark.Response;
+import spark.Route;
 
 /**
  * @fbielejec
@@ -19,64 +17,30 @@ import resources.JSONResource;
 
 public class Oscilloscope {
 
+	private static final String IP_ADDRESS = System.getenv("OPENSHIFT_DIY_IP") != null
+			? System.getenv("OPENSHIFT_DIY_IP") : "localhost";
+			
+	private static final int PORT = System.getenv("OPENSHIFT_DIY_PORT") != null
+			? Integer.parseInt(System.getenv("OPENSHIFT_DIY_PORT")) : 8080;
+
 	public static void main(String[] args) {
 
-		Server jettyServer = new Server(8080);
+		setIpAddress(IP_ADDRESS);
+		setPort(PORT);
+		staticFileLocation("/webapp");
 
-		////////////////////////
-		// ---JSON RESOURCE---//
-		////////////////////////
-
-		JSONResource resource = new JSONResource();
+		// ---REST API ---//
 		
-		ResourceConfig rc = new ResourceConfig();
-		rc.register(resource);
-
-		ServletContainer sc = new ServletContainer(rc);
-
-		ServletHolder servletHolder = new ServletHolder(sc);
-
-		ServletContextHandler jsonResourceContext = new ServletContextHandler();
-		jsonResourceContext.addServlet(servletHolder, "/*");
-
-		//////////////////////////
-		// ---STATIC RESOURCE---//
-		//////////////////////////
-
-		ResourceHandler staticResourceHandler = new ResourceHandler();
-
-		staticResourceHandler.setResourceBase("./src/webapp/");
-
-		//  enable Directory Listing
-//		resourceHandler.setDirectoriesListed(true);
-
-		ContextHandler staticContextHandler = new ContextHandler("/");
-		staticContextHandler.setHandler(staticResourceHandler);
-
-		///////////////////////
-		// ---ADD HANDLERS---//
-		///////////////////////
+		new TestResource(new Test());
 		
-		HandlerList handlers = new HandlerList();
+		// ---STATIC RESOURCES---//
 
-		handlers.setHandlers(new Handler[] { jsonResourceContext, //
-				staticContextHandler, //
-				new DefaultHandler() //
+		get("/", new Route() {
+			@Override
+			public Object handle(Request request, Response response) {
+				return "Hello World!!";
+			}
 		});
 
-		jettyServer.setHandler(handlers);
-
-		try {
-
-			jettyServer.start();
-			jettyServer.join();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			jettyServer.destroy();
-		}
-
-	}
-
+	}// END: main
 }

@@ -10,6 +10,11 @@
 	<name>oscilloscope</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
 	<build>
 		<plugins>
 
@@ -42,57 +47,35 @@
 
 	<dependencies>
 
-<dependency>
-	<groupId>org.eclipse.jetty</groupId>
-	<artifactId>jetty-server</artifactId>
-	<version>9.3.8.v20160314</version>
-</dependency>
+		<dependency>
+			<groupId>com.sparkjava</groupId>
+			<artifactId>spark-core</artifactId>
+			<version>2.0.0</version>
+		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.5</version>
+		</dependency>
 
-<dependency>
-	<groupId>org.eclipse.jetty</groupId>
-	<artifactId>jetty-servlet</artifactId>
-	<version>9.3.8.v20160314</version>
-</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.fasterxml.jackson.core</groupId> -->
+<!-- 			<artifactId>jackson-core</artifactId> -->
+<!-- 			<version>2.5.1</version> -->
+<!-- 		</dependency> -->
 
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.fasterxml.jackson.core</groupId> -->
+<!-- 			<artifactId>jackson-databind</artifactId> -->
+<!-- 			<version>2.5.1</version> -->
+<!-- 		</dependency> -->
 
-<dependency>
-	<groupId>org.glassfish.jersey.core</groupId>
-	<artifactId>jersey-server</artifactId>
-	<version>2.13</version>
-</dependency>
-
-
-<dependency>
-	<groupId>org.glassfish.jersey.containers</groupId>
-	<artifactId>jersey-container-servlet-core</artifactId>
-	<version>2.13</version>
-</dependency>
-
-
-<dependency>
-	<groupId>org.glassfish.jersey.containers</groupId>
-	<artifactId>jersey-container-jetty-http</artifactId>
-	<version>2.13</version>
-</dependency>
-
- <dependency>
-        <groupId>org.glassfish.jersey.media</groupId>
-        <artifactId>jersey-media-moxy</artifactId>
-        <version>2.13</version>
-    </dependency>
-
-<dependency>
-		<groupId>com.sun.jersey</groupId>
-		<artifactId>jersey-client</artifactId>
-		<version>1.8</version>
-	</dependency>
-
-<dependency>
-    <groupId>com.google.code.gson</groupId>
-    <artifactId>gson</artifactId>
-    <version>2.6.2</version>
-</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.6.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

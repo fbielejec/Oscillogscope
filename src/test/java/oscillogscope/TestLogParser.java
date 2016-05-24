@@ -1,4 +1,4 @@
-package oscilloscope;
+package oscillogscope;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,4 +1,4 @@
-package oscilloscope;
+package oscillogscope;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

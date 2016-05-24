@@ -1,4 +1,4 @@
-package oscilloscope;
+package oscillogscope;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -8,5 +8,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ 
 	TestLogParser.class,
 	TestRESTApi.class})
-public class OscilloscopeTests {
+public class OscillogscopeTests {
 }

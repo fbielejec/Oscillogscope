@@ -17,17 +17,18 @@ import spark.Route;
 
 public class Oscillogscope {
 
-	private static final String IP_ADDRESS = System.getenv("OPENSHIFT_DIY_IP") != null
-			? System.getenv("OPENSHIFT_DIY_IP") : "localhost";
-			
-	private static final int PORT = System.getenv("OPENSHIFT_DIY_PORT") != null
-			? Integer.parseInt(System.getenv("OPENSHIFT_DIY_PORT")) : 8080;
+//	private static final String IP_ADDRESS = System.getenv("OPENSHIFT_DIY_IP") != null
+//			? System.getenv("OPENSHIFT_DIY_IP") : "localhost";
+//			
+//	private static final int PORT = System.getenv("OPENSHIFT_DIY_PORT") != null
+//			? Integer.parseInt(System.getenv("OPENSHIFT_DIY_PORT")) : 8080;
 
 	public static void main(String[] args) {
 
-		setIpAddress(IP_ADDRESS);
-		setPort(PORT);
-
+//		setIpAddress(IP_ADDRESS);
+//		setPort(PORT);
+		setPort(getHerokuAssignedPort());
+		
 		// ---STATIC RESOURCES---//
 
 		staticFileLocation("/webapp");
@@ -38,4 +39,13 @@ public class Oscillogscope {
 		new TestResource(new Test());
 
 	}// END: main
+	
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 8080; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
+	
 }

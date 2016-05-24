@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import app.Oscilloscope;
 import spark.Spark;
 
 /**
@@ -38,7 +39,6 @@ public class TestRESTApi {
 			assertEquals("FUBAR", json.get("resource"));
 
 		} catch (IOException e) {
-//			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}

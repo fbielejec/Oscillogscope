@@ -1,4 +1,4 @@
-package oscilloscope;
+package app;
 
 import static spark.Spark.get;
 import static spark.Spark.setPort;
@@ -27,7 +27,6 @@ public class Oscilloscope {
 
 		setIpAddress(IP_ADDRESS);
 		setPort(PORT);
-		staticFileLocation("/webapp");
 
 		// ---REST API ---//
 		
@@ -35,12 +34,8 @@ public class Oscilloscope {
 		
 		// ---STATIC RESOURCES---//
 
-		get("/", new Route() {
-			@Override
-			public Object handle(Request request, Response response) {
-				return "Hello World!!";
-			}
-		});
+		staticFileLocation("/webapp");
+//		 get("/", (request, response) -> "Hello World");
 
 	}// END: main
 }

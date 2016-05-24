@@ -10,7 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import app.Oscilloscope;
+import app.Oscillogscope;
 import spark.Spark;
 
 /**
@@ -20,7 +20,7 @@ public class TestRESTApi {
 
 	@BeforeClass
 	public static void beforeClass() {
-		Oscilloscope.main(null);
+		Oscillogscope.main(null);
 	}
 
 	@AfterClass

@@ -1,5 +1,5 @@
-.:: Oscilloscope ::.
-==============
+.:: Oscillogscope ::.
+=====================
 
 Version: 0.0.1 rc, 2016 <br />
 Authors: Filip Bielejec <br />

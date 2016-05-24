@@ -15,7 +15,7 @@ import spark.Route;
  * @fbielejec
  */
 
-public class Oscilloscope {
+public class Oscillogscope {
 
 	private static final String IP_ADDRESS = System.getenv("OPENSHIFT_DIY_IP") != null
 			? System.getenv("OPENSHIFT_DIY_IP") : "localhost";
@@ -28,14 +28,14 @@ public class Oscilloscope {
 		setIpAddress(IP_ADDRESS);
 		setPort(PORT);
 
-		// ---REST API ---//
-		
-		new TestResource(new Test());
-		
 		// ---STATIC RESOURCES---//
 
 		staticFileLocation("/webapp");
 //		 get("/", (request, response) -> "Hello World");
+		
+		// ---REST API ---//
+		
+		new TestResource(new Test());
 
 	}// END: main
 }

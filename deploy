@@ -1,0 +1,8 @@
+#!/bin/bash
+
+git commit -a -m 'deploying to heroku';
+git push origin heroku;
+heroku ps:scale web=1;
+#heroku open;
+
+exit 0

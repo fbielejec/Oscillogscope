@@ -6,9 +6,8 @@
 	<artifactId>oscillogscope</artifactId>
 		<!---<packaging>jar</packaging>-->
 	<version>0.0.1-SNAPSHOT</version>
-<!---
 	<name>oscillogscope</name>
-	<url>http://maven.apache.org</url>-->
+<!---	<url>http://maven.apache.org</url>-->
 
 <dependencies>
 

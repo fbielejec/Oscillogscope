@@ -1,15 +1,8 @@
 package app;
 
-import static spark.Spark.get;
-import static spark.Spark.setPort;
-import static spark.Spark.setIpAddress;
-import static spark.Spark.staticFileLocation;
-
 import resources.Test;
 import resources.TestResource;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import spark.Spark;
 
 /**
  * @fbielejec
@@ -25,13 +18,13 @@ public class Oscillogscope {
 
 	public static void main(String[] args) {
 
-//		setIpAddress(IP_ADDRESS);
-//		setPort(PORT);
-		setPort(getHerokuAssignedPort());
+//		Spark.setIpAddress(IP_ADDRESS);
+//		Spark.setPort(PORT);
+		Spark.setPort(getHerokuAssignedPort());
 		
 		// ---STATIC RESOURCES---//
 
-		staticFileLocation("/webapp");
+		Spark.staticFileLocation("/webapp");
 //		 get("/", (request, response) -> "Hello World");
 		
 		// ---REST API ---//

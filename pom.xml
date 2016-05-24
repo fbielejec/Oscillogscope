@@ -53,56 +53,56 @@
                 </archive>
             </configuration>
         </plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-shade-plugin</artifactId> -->
-<!-- 				<version>2.3</version> -->
-<!-- 				<configuration> -->
-<!-- 					<createDependencyReducedPom>false</createDependencyReducedPom> -->
-<!-- 					<filters> -->
-<!-- 						<filter> -->
-<!-- 							<artifact>*:*</artifact> -->
-<!-- 							<excludes> -->
-<!-- 								<exclude>META-INF/*.SF</exclude> -->
-<!-- 								<exclude>META-INF/*.DSA</exclude> -->
-<!-- 								<exclude>META-INF/*.RSA</exclude> -->
-<!-- 							</excludes> -->
-<!-- 						</filter> -->
-<!-- 					</filters> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>shade</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<transformers> -->
-<!-- 								<transformer -->
-<!-- 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> -->
-<!-- 									<mainClass>app.Oscillogscope</mainClass> -->
-<!-- 								</transformer> -->
-<!-- 							</transformers> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>app.Oscillogscope</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<!---HEROKU -->
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>0.4.4</version>
-				<configuration>
-					<jdkVersion>1.8</jdkVersion>
-					<appName>oscillogscope</appName>
-					<processTypes>
-						<!-- Tell Heroku how to launch your application -->
-						<!-- You might have to remove the ./ in front -->
-						<web>java -jar ./target/oscillogscope-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web>
-					</processTypes>
-				</configuration>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.heroku.sdk</groupId> -->
+<!-- 				<artifactId>heroku-maven-plugin</artifactId> -->
+<!-- 				<version>0.4.4</version> -->
+<!-- 				<configuration> -->
+<!-- 					<jdkVersion>1.8</jdkVersion> -->
+<!-- 					<appName>oscillogscope</appName> -->
+<!-- 					<processTypes> -->
+<!-- 						Tell Heroku how to launch your application -->
+<!-- 						You might have to remove the ./ in front -->
+<!-- 						<web>java -jar ./target/oscillogscope-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web> -->
+<!-- 					</processTypes> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
 
 		</plugins>
 	</build>

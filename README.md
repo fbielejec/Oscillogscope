@@ -4,6 +4,7 @@
 Version: 0.0.1 rc, 2016 <br />
 Authors: Filip Bielejec <br />
 License: LGPL <br />
+www.oscillogscope.herokuapp.com
 
 ## PURPOSE
 Creates a watch for a BEAST run and an URL to watch the stack traces anywhere & anytime.

@@ -7,6 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ 
 	TestLogParser.class,
-	TestRESTApi.class})
+	TestRESTApi.class,
+	TestSql20Model.class})
 public class OscillogscopeTests {
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Model {
 
@@ -8,11 +9,12 @@ public interface Model {
 	
 	public void dropTable(String tableName);
 	
-	public void insertRow(List<Double> values);
+	void insertRow(Map<String, Double> row);
 	
-	public List<Double> getRows();
+	public List<Line> getAllRows();
 	
 	public boolean tableExists(String tableName);
-	
+
+
 }
 

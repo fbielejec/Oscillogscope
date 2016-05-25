@@ -9,10 +9,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import data.Coordinate;
-import data.Line;
 import data.OscilloscopeData;
 import exceptions.OscilloscopeException;
+import model.Coordinate;
+import model.Line;
 import utils.Utils;
 
 /**

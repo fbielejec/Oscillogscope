@@ -20,12 +20,12 @@ public class TestRESTApi {
 
 	@BeforeClass
 	public static void beforeClass() {
-		Oscillogscope.main(null);
+//		Oscillogscope.main(null);
 	}
 
 	@AfterClass
 	public static void afterClass() {
-		Spark.stop();
+//		Spark.stop();
 	}
 
 	@Test

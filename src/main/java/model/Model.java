@@ -9,9 +9,9 @@ public interface Model {
 	
 	public void dropTable(String tableName);
 	
-	void insertRow(Map<String, Double> row);
+	void insertRow(Map<String, Double> row, String tableName);
 	
-	public List<Line> getAllRows();
+	public List<Line> getAllRows(List<String> columnNames, String tableName);
 	
 	public boolean tableExists(String tableName);
 

@@ -16,7 +16,8 @@ public class TestSql20Model {
 	@Test
 	public void testInsertRow() {
 		
-		final String expected = "INSERT INTO test (name3,name2,name1) VALUES (2.0,1.0,0.0);";
+		String tableName = "test";
+		final String expected = "INSERT INTO " + tableName +" (name3,name2,name1) VALUES (2.0,1.0,0.0);";
 		
 		Sql2oModel model = new Sql2oModel(null);
 		
@@ -26,7 +27,7 @@ public class TestSql20Model {
 		testRow.put("name2", 1.0);
 		testRow.put("name3", 2.0);
 		
-		String result = model.prepareStatement(testRow);
+		String result = model.prepareStatement(testRow, tableName);
 
 		Assert.assertEquals(expected, result);
 		

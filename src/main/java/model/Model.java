@@ -10,5 +10,9 @@ public interface Model {
 	
 	public void insertRow(List<Double> values);
 	
+	public List<Double> getRows();
+	
+	public boolean tableExists(String tableName);
+	
 }
 

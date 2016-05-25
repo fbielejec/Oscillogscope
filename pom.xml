@@ -4,18 +4,24 @@
 
 	<groupId>com.mycompany.app</groupId>
 	<artifactId>oscillogscope</artifactId>
-		<!---<packaging>jar</packaging>-->
+	<!---<packaging>jar</packaging> -->
 	<version>0.0.1-SNAPSHOT</version>
 	<name>oscillogscope</name>
-<!---	<url>http://maven.apache.org</url>-->
+	<!--- <url>http://maven.apache.org</url> -->
 
-<dependencies>
+	<dependencies>
 
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.4-1201-jdbc41</version>
-        </dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1201-jdbc41</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.sql2o</groupId>
+			<artifactId>sql2o</artifactId>
+			<version>1.5.4</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.sparkjava</groupId>
@@ -23,11 +29,11 @@
 			<version>2.0.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.5</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.slf4j</groupId> -->
+<!-- 			<artifactId>slf4j-simple</artifactId> -->
+<!-- 			<version>1.7.5</version> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -60,28 +66,28 @@
 
 
 			<!---UBER-JAR -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <!-- This tells Maven to include all dependencies -->
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>app.Oscillogscope</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptorRefs>
+						<!-- This tells Maven to include all dependencies -->
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>app.Oscillogscope</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 
 			<!---HEROKU -->
 			<plugin>
@@ -92,9 +98,10 @@
 					<jdkVersion>1.8</jdkVersion>
 					<appName>oscillogscope</appName>
 					<processTypes>
-<!-- 						Tell Heroku how to launch your application -->
-<!-- 						You might have to remove the ./ in front -->
-						<web>java -jar ./target/oscillogscope-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web>
+						<!-- Tell Heroku how to launch your application -->
+						<!-- You might have to remove the ./ in front -->
+						<web>java -jar
+							./target/oscillogscope-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web>
 					</processTypes>
 				</configuration>
 			</plugin>

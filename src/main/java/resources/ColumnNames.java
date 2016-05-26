@@ -1,4 +1,4 @@
-package model;
+package resources;
 
 import java.util.List;
 

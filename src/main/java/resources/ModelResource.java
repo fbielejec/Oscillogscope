@@ -2,22 +2,27 @@ package resources;
 
 import static spark.Spark.post;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.sql2o.Sql2o;
 
 import com.google.gson.Gson;
 
-import model.ColumnNames;
 import model.Model;
 import model.Sql2oModel;
 
 public class ModelResource {
 
-	private static final String API_CONTEXT = "/colnames";
-	private static final String TEST_DT = "test";
+	private static final String API_CONTEXT = "/database";
+	private static final String TEST_TABLE = "test";
 	
 	
 	private final Model model; 
-
+//    private List<String> colnames;
+	
 	public ModelResource() {
 
 		String username = "postgres";
@@ -32,39 +37,62 @@ public class ModelResource {
 
 	private void setupEndpoints() {
 
-		// post for column names, calld model,createtable
-		post(API_CONTEXT , (request, response) -> {
+		// post for column names, calls model createTable
+		post(API_CONTEXT +"/colnames", (request, response) -> {
 			try {
-
 				
-				System.out.println(request.body());
+				ColumnNames columns = new Gson().fromJson(request.body(), ColumnNames.class);
+//				this.colnames = columns.getColumnNames();
 				
-				ColumnNames colnames = new Gson().fromJson(request.body(), ColumnNames.class);
-				
-				System.out.println(colnames.toString());
-				
-                model.createTable(TEST_DT, colnames.getColumnNames());
-				
-				
+                model.createTable(TEST_TABLE, columns.getColumnNames());
 				
 				response.status(200);
 				response.type("application/json");
 				return response;
 
 			} catch (Exception e) {
-				
 				e.printStackTrace();
-				
 				response.status(400);
 				return response;
 			}
 		});
 		
 		
-//		get(API_CONTEXT, "application/json", (request, response) -> this.test, new JsonTransformer());
+		// post for row inserts
+		post(API_CONTEXT +"/insert", (request, response) -> {
+			try {
+
+				Row row = new Gson().fromJson(request.body(), Row.class);
+				
+				model.insertRow(row.getRow(), TEST_TABLE);
+				
+				response.status(200);
+				response.type("application/json");
+				return response;
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.status(400);
+				return response;
+			}
+		});
 		
 		
 	}
 	
-	
+//	private Map<String, Double> createRowMap(List<String> colnames, List<Double> values) {
+//		
+//		  Map<String, Double> commercials =
+//				  colnames
+//		            .stream()
+//		            .collect(
+//		                    Collectors.toMap(k->k, 
+//		                    		v->null
+//		                    		));
+//		  
+//		  System.out.println(commercials);
+//		  
+//		return null;
+//	}
+//	
 }

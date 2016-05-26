@@ -25,18 +25,23 @@ public class Sql2oModel implements Model {
 		/**
 		 * Creates table and adds columns to it
 		 */
-		try (Connection conn = sql2o.beginTransaction()) {
 
-			String sql = "CREATE TABLE IF NOT EXISTS " + tableName +" (id SERIAL);";
-			conn.createQuery(sql).executeUpdate();			
-			
-			columnNames.forEach((name) -> {
-				
-				conn.createQuery("ALTER TABLE " + tableName + " ADD " +name+ "  numeric;")
-						.executeUpdate();
-			});
+		if (!tableExists(tableName)) {
+			try (Connection conn = sql2o.beginTransaction()) {
 
-			conn.commit();
+				String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id SERIAL);";
+				conn.createQuery(sql).executeUpdate();
+
+				columnNames.forEach((name) -> {
+					conn.createQuery("ALTER TABLE " + tableName + " ADD " + name + "  numeric;").executeUpdate();
+				});
+
+				conn.commit();
+			}
+
+		} else {
+
+			//  
 		}
 	}
 
@@ -95,7 +100,7 @@ public class Sql2oModel implements Model {
 
 	@Override
 	public List<Line> getAllRows(List<String> columnNames, String tableName) {
-		
+
 		List<Line> lines = null;
 		try (Connection conn = sql2o.open()) {
 

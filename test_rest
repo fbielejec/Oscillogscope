@@ -11,7 +11,10 @@ echo -e '\n'
 
 
 # colnames for DB creation
-curl -X POST -H 'Content-Type: application/json' -d '{"colnames":["name1","name2","name3"]}' http://localhost:8080/colnames
+curl -X POST -H 'Content-Type: application/json' -d '{"colnames":["name1","name2","name3"]}' http://localhost:8080/database/colnames
+
+
+curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "0.1", "name2" : "0.2", "name3" : "0.3"}}' http://localhost:8080/database/insert
 
 
 ###########

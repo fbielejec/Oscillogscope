@@ -3,7 +3,9 @@ package model;
 import java.util.List;
 import java.util.Map;
 
-public interface Model {
+import data.Line;
+
+public interface Database {
 
 	public void createTable(String tableName, List<String> columnNames);
 	
@@ -13,8 +15,9 @@ public interface Model {
 	
 	public List<Line> getAllRows(List<String> columnNames, String tableName);
 	
+	public List<String> getColumnNames( String tableName);
+	
 	public boolean tableExists(String tableName);
-
 
 }
 

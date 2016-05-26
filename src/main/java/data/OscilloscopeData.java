@@ -2,8 +2,6 @@ package data;
 
 import java.util.List;
 
-import model.Line;
-
 /**
  * @author fbielejec
  */

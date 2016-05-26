@@ -16,10 +16,15 @@ curl -X POST -H 'Content-Type: application/json' -d '{"colnames":["name1","name2
 
 curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "0.1", "name2" : "0.2", "name3" : "0.3"}}' http://localhost:8080/database/insert
 
+curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "1.1", "name2" : "1.2", "name3" : "1.3"}}' http://localhost:8080/database/insert
+
+curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "2.1", "name2" : "2.2", "name3" : "2.3"}}' http://localhost:8080/database/insert
 
 ###########
 #---GET---#
 ###########
+
+curl -X GET http://localhost:8080/database/data
 
 curl -X GET http://localhost:8080/test
 echo -e '\n'

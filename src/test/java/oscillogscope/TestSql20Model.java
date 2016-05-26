@@ -6,7 +6,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import model.Sql2oModel;
+import model.Sql2oDatabase;
 
 /**
  * @author fbielejec
@@ -19,7 +19,7 @@ public class TestSql20Model {
 		String tableName = "test";
 		final String expected = "INSERT INTO " + tableName +" (name3,name2,name1) VALUES (2.0,1.0,0.0);";
 		
-		Sql2oModel model = new Sql2oModel(null);
+		Sql2oDatabase model = new Sql2oDatabase(null);
 		
 		Map<String, Double> testRow = new HashMap<String, Double>();
 		

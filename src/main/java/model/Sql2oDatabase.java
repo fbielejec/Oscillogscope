@@ -2,6 +2,7 @@ package model;
 
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -12,11 +13,14 @@ import java.util.stream.IntStream;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-public class Sql2oModel implements Model {
+import data.Coordinate;
+import data.Line;
+
+public class Sql2oDatabase implements Database {
 
 	private final Sql2o sql2o;
 
-	public Sql2oModel(Sql2o sql2o) {
+	public Sql2oDatabase(Sql2o sql2o) {
 		this.sql2o = sql2o;
 	}
 
@@ -41,7 +45,7 @@ public class Sql2oModel implements Model {
 
 		} else {
 
-			//  
+			//
 		}
 	}
 
@@ -105,14 +109,16 @@ public class Sql2oModel implements Model {
 		try (Connection conn = sql2o.open()) {
 
 			Integer nColumns = columnNames.size();
-			Integer colIndex = 0;
-			String statesColumnName = columnNames.get(colIndex);
+			
+			Integer statesColumnIndex = 0;
+			String statesColumnName = columnNames.get(statesColumnIndex);
 
 			// get states column
 			List<Double> states = getColumn(statesColumnName, tableName);
 
 			// get lines
-			lines = IntStream.range(colIndex++, nColumns - 1) //
+			lines = IntStream.range(0, nColumns) //
+					.filter(i -> i != statesColumnIndex)
 					.mapToObj(i -> {
 						String colname = columnNames.get(i);
 						List<Double> values = getColumn(colname, tableName);
@@ -133,8 +139,8 @@ public class Sql2oModel implements Model {
 		 * 
 		 * @return Line
 		 */
-		List<Coordinate> coords = IntStream.range(0, values.size() - 1) //
-				.skip(1) //
+		List<Coordinate> coords = IntStream.range(0, values.size()  ) //
+//				.skip(1) //
 				.mapToObj(i -> {
 					Double x = Double.valueOf(states.get(i));
 					Double y = Double.valueOf(values.get(i));
@@ -167,6 +173,37 @@ public class Sql2oModel implements Model {
 		}
 
 		return false;
+	}
+
+	@Override
+	public List<String> getColumnNames(String tableName) {
+
+		try (Connection conn = sql2o.beginTransaction()) {
+
+			String sql = "SELECT * FROM " + tableName + " LIMIT 1;";
+
+			ResultSet rs = conn.getJdbcConnection().prepareStatement(sql).executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			int ncol = rsmd.getColumnCount();
+
+			List<String> colnames = IntStream.range(1, ncol + 1) //
+					.mapToObj(i -> {
+						try {
+							return new String(rsmd.getColumnName(i));
+						} catch (SQLException e) {
+							e.printStackTrace();
+							return null;
+						}
+					}) //
+					.collect(Collectors.toList());
+
+			return colnames;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

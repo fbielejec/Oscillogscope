@@ -1,5 +1,6 @@
 package app;
 
+import resources.ModelResource;
 import resources.Test;
 import resources.TestResource;
 import spark.Spark;
@@ -21,7 +22,8 @@ public class Oscillogscope {
 		// ---REST API ---//
 
 		new TestResource(new Test());
-
+        new ModelResource();
+		
 	}// END: main
 
 	static int getHerokuAssignedPort() {

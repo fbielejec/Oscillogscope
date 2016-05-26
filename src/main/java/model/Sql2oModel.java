@@ -27,11 +27,12 @@ public class Sql2oModel implements Model {
 		 */
 		try (Connection conn = sql2o.beginTransaction()) {
 
-			String sql = "CREATE TABLE IF NOT EXISTS :tableName";
-			conn.createQuery(sql).addParameter("tableName", tableName).executeUpdate();
-
+			String sql = "CREATE TABLE IF NOT EXISTS " + tableName +" (id SERIAL);";
+			conn.createQuery(sql).executeUpdate();			
+			
 			columnNames.forEach((name) -> {
-				conn.createQuery("ALTER TABLE " + tableName + " ADD :name numeric;").addParameter("name", name)
+				
+				conn.createQuery("ALTER TABLE " + tableName + " ADD " +name+ "  numeric;")
 						.executeUpdate();
 			});
 

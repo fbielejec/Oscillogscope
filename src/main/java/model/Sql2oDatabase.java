@@ -30,22 +30,20 @@ public class Sql2oDatabase implements Database {
 		 * Creates table and adds columns to it
 		 */
 
-		if (!tableExists(tableName)) {
-			try (Connection conn = sql2o.beginTransaction()) {
+		if (tableExists(tableName)) {
+			dropTable(tableName);
+		}
 
-				String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id SERIAL);";
-				conn.createQuery(sql).executeUpdate();
+		try (Connection conn = sql2o.beginTransaction()) {
 
-				columnNames.forEach((name) -> {
-					conn.createQuery("ALTER TABLE " + tableName + " ADD " + name + "  numeric;").executeUpdate();
-				});
+			String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id SERIAL);";
+			conn.createQuery(sql).executeUpdate();
 
-				conn.commit();
-			}
+			columnNames.forEach((name) -> {
+				conn.createQuery("ALTER TABLE " + tableName + " ADD " + name + "  numeric;").executeUpdate();
+			});
 
-		} else {
-
-			//
+			conn.commit();
 		}
 	}
 
@@ -55,9 +53,8 @@ public class Sql2oDatabase implements Database {
 		 * Drops table entirely
 		 */
 		try (Connection conn = sql2o.beginTransaction()) {
-			String sql = "DROP TABLE IF EXISTS :tableName";
-			conn.createQuery(sql).addParameter("tableName", tableName).executeUpdate();
-			conn.commit();
+			String sql = "DROP TABLE IF EXISTS " + tableName;
+			conn.createQuery(sql).executeUpdate().commit();
 		}
 
 	}
@@ -73,8 +70,7 @@ public class Sql2oDatabase implements Database {
 
 		try (Connection conn = sql2o.beginTransaction()) {
 			String sql = prepareStatement(row, tableName);
-			conn.createQuery(sql).executeUpdate();
-			conn.commit();
+			conn.createQuery(sql).executeUpdate().commit();
 		}
 	}
 
@@ -109,7 +105,7 @@ public class Sql2oDatabase implements Database {
 		try (Connection conn = sql2o.open()) {
 
 			Integer nColumns = columnNames.size();
-			
+
 			Integer statesColumnIndex = 0;
 			String statesColumnName = columnNames.get(statesColumnIndex);
 
@@ -118,8 +114,7 @@ public class Sql2oDatabase implements Database {
 
 			// get lines
 			lines = IntStream.range(0, nColumns) //
-					.filter(i -> i != statesColumnIndex)
-					.mapToObj(i -> {
+					.filter(i -> i != statesColumnIndex).mapToObj(i -> {
 						String colname = columnNames.get(i);
 						List<Double> values = getColumn(colname, tableName);
 						Line line = createLine(colname, states, values);
@@ -139,8 +134,8 @@ public class Sql2oDatabase implements Database {
 		 * 
 		 * @return Line
 		 */
-		List<Coordinate> coords = IntStream.range(0, values.size()  ) //
-//				.skip(1) //
+		List<Coordinate> coords = IntStream.range(0, values.size()) //
+				// .skip(1) //
 				.mapToObj(i -> {
 					Double x = Double.valueOf(states.get(i));
 					Double y = Double.valueOf(values.get(i));

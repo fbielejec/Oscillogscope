@@ -3,7 +3,12 @@ package resources;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.sql2o.Sql2o;
 
@@ -11,11 +16,14 @@ import com.google.gson.Gson;
 
 import data.Line;
 import data.OscilloscopeData;
+import exceptions.OscilloscopeException;
 import model.Database;
 import model.Sql2oDatabase;
 import utils.JsonTransformer;
 
 public class ModelResource {
+
+	private static final String ILLEGAL_CHARACTER = ".";
 
 	private static final String API_CONTEXT = "/database";
 	private static final String TEST_TABLE = "test";
@@ -42,12 +50,19 @@ public class ModelResource {
 
 				ColumnNames columns = new Gson().fromJson(request.body(), ColumnNames.class);
 
+				List<String> colnames = columns.getColumnNames();
+
+				if(!isColnamesValid(colnames)) {
+					response.status(400);
+					return response;
+				}
+				
 				db.createTable(TEST_TABLE, columns.getColumnNames());
 
 				response.status(200);
 				response.type("application/json");
 				return response;
-
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.status(400);
@@ -79,14 +94,31 @@ public class ModelResource {
 			List<String> colnames = db.getColumnNames(TEST_TABLE);
 
 			List<Line> lines = db.getAllRows(colnames, TEST_TABLE);
-			
-			
-			
-			
+
 			return new OscilloscopeData(lines);
-			
-		} , new JsonTransformer());
+
+		}, new JsonTransformer());
 
 	}
 
+	private Boolean isColnamesValid(List<String> colnames) {
+		
+		List<String> illegals = colnames.stream().filter(name -> name.contains(ILLEGAL_CHARACTER)).collect(Collectors.toList());
+		
+		if(illegals.size() >0) {
+			System.out.println("Log contains illegal character " + ILLEGAL_CHARACTER + "in columns " + illegals.toString());
+			return false;
+		}
+		
+		Set<?> duplicates = colnames.stream().filter(i -> Collections.frequency(colnames, i) > 1)
+        .collect(Collectors.toSet());//.forEach(System.out::println);
+		
+		if(duplicates.size() >0) {
+			System.out.println("Log contains duplicate elements " + duplicates.toString());
+			return false;
+		}
+		
+		return true;
+	}
+	
 }

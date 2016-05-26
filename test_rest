@@ -9,16 +9,21 @@ echo -e '\n'
 
 #curl -H 'Content-Type: application/json' -X PUT -d '{"tags":["tag1","tag2"],"question":"Which band?","answers":[{"id":"a0","answer":"Answer1"},{"id":"a1","answer":"answer2"}]}' 
 
+# this should be handled gracefully
+curl -X POST -H 'Content-Type: application/json' -d '{"colnames":["name.1","name2","name3"]}' http://localhost:8080/database/colnames
+
+curl -X POST -H 'Content-Type: application/json' -d '{"colnames":["name","name","name3"]}' http://localhost:8080/database/colnames
 
 # colnames for DB creation
 curl -X POST -H 'Content-Type: application/json' -d '{"colnames":["name1","name2","name3"]}' http://localhost:8080/database/colnames
 
-
+# DB insertion
 curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "0.1", "name2" : "0.2", "name3" : "0.3"}}' http://localhost:8080/database/insert
 
 curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "1.1", "name2" : "1.2", "name3" : "1.3"}}' http://localhost:8080/database/insert
 
 curl -X POST -H 'Content-Type: application/json' -d '{"row":{"name1" : "2.1", "name2" : "2.2", "name3" : "2.3"}}' http://localhost:8080/database/insert
+
 
 ###########
 #---GET---#

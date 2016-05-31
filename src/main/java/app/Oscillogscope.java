@@ -1,6 +1,6 @@
 package app;
 
-import resources.ModelResource;
+import resources.DatabaseResource;
 import resources.Test;
 import resources.TestResource;
 import spark.Spark;
@@ -22,7 +22,7 @@ public class Oscillogscope {
 		// ---REST API ---//
 
 		new TestResource(new Test());
-        new ModelResource();
+        new DatabaseResource();
 		
 	}// END: main
 

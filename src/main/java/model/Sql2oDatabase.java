@@ -29,22 +29,18 @@ public class Sql2oDatabase implements Database {
 		/**
 		 * Creates table and adds columns to it
 		 */
-
-		if (tableExists(tableName)) {
-			dropTable(tableName);
+		try (Connection conn = sql2o.beginTransaction()) {
+			String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id SERIAL);";
+			conn.createQuery(sql).executeUpdate().commit();
 		}
 
 		try (Connection conn = sql2o.beginTransaction()) {
-
-			String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (id SERIAL);";
-			conn.createQuery(sql).executeUpdate();
-
 			columnNames.forEach((name) -> {
 				conn.createQuery("ALTER TABLE " + tableName + " ADD " + name + "  numeric;").executeUpdate();
 			});
-
 			conn.commit();
 		}
+
 	}
 
 	@Override
@@ -98,6 +94,34 @@ public class Sql2oDatabase implements Database {
 		return str;
 	}
 
+	@Override
+	public List<Line> getLastNRows(List<String> columnNames, String tableName, Integer n) {
+		List<Line> lines = null;
+		try (Connection conn = sql2o.open()) {
+
+			Integer nColumns = columnNames.size();
+
+			Integer statesColumnIndex = 0;
+			String statesColumnName = columnNames.get(statesColumnIndex);
+
+			// get states column
+			List<Double> states = getColumnLastN(statesColumnName, tableName, n);
+
+			// get lines
+			lines = IntStream.range(0, nColumns) //
+					.filter(i -> i != statesColumnIndex).mapToObj(i -> {
+						String colname = columnNames.get(i);
+						List<Double> values = getColumnLastN(colname, tableName, n);
+						Line line = createLine(colname, states, values);
+						return line;
+					}) //
+					.collect(Collectors.toList());
+
+		}
+
+		return lines;
+	}
+	
 	@Override
 	public List<Line> getAllRows(List<String> columnNames, String tableName) {
 
@@ -153,6 +177,13 @@ public class Sql2oDatabase implements Database {
 		}
 	}
 
+	private List<Double> getColumnLastN(String colname, String tableName, Integer n) {
+		try (Connection conn = sql2o.open()) {
+			String sql = "SELECT " + colname + " FROM " + tableName + " ORDER BY id DESC LIMIT " + n;
+			return conn.createQuery(sql).executeScalarList(Double.class);
+		}
+	}
+	
 	@Override
 	public boolean tableExists(String tableName) {
 		try (Connection conn = sql2o.beginTransaction()) {
@@ -200,5 +231,6 @@ public class Sql2oDatabase implements Database {
 
 		return null;
 	}
+
 
 }

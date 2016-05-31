@@ -15,6 +15,8 @@ public interface Database {
 	
 	public List<Line> getAllRows(List<String> columnNames, String tableName);
 	
+	public List<Line> getLastNRows(List<String> columnNames, String tableName, Integer n);
+	
 	public List<String> getColumnNames( String tableName);
 	
 	public boolean tableExists(String tableName);
